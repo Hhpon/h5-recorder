@@ -1,0 +1,151 @@
+<mxfile host="65bd71144e">
+    <diagram id="IMjrfGF2zoHhyOpJGCxm" name="Page-1">
+        <mxGraphModel dx="2498" dy="680" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+            <root>
+                <object label="" test="facingMode?: ConstrainDOMString;" id="0">
+                    <mxCell/>
+                </object>
+                <mxCell id="1" parent="0"/>
+                <object label="MediaTrackConstraintSet" placeholders="1" id="24">
+                    <mxCell style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;sketch=1;" parent="1" vertex="1">
+                        <mxGeometry x="-170" y="750" width="290" height="154" as="geometry">
+                            <mxRectangle x="960" y="274" width="180" height="26" as="alternateBounds"/>
+                        </mxGeometry>
+                    </mxCell>
+                </object>
+                <mxCell id="45" value="+ deviceId?: ConstrainDOMString;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;sketch=1;" parent="24" vertex="1">
+                    <mxGeometry y="26" width="290" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="+ aspectRatio?: ConstrainDouble;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;sketch=1;" parent="24" vertex="1">
+                    <mxGeometry y="52" width="290" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="43" value="+ channelCount?: ConstrainULong;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;sketch=1;" parent="24" vertex="1">
+                    <mxGeometry y="76" width="290" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="61" value="+ sampleRate?: ConstrainULong;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;sketch=1;" parent="24" vertex="1">
+                    <mxGeometry y="102" width="290" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="62" value="+ sampleSize?: ConstrainULong;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;sketch=1;" parent="24" vertex="1">
+                    <mxGeometry y="128" width="290" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="MediaStreamConstraints" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;sketch=0;" parent="1" vertex="1">
+                    <mxGeometry x="-150" y="464" width="250" height="86" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="+ audio?: boolean | MediaTrackConstraints" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;sketch=0;" parent="2" vertex="1">
+                    <mxGeometry y="26" width="250" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;sketch=0;" parent="2" vertex="1">
+                    <mxGeometry y="52" width="250" height="8" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="+ video?: boolean | MediaTrackConstraints" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;sketch=0;" parent="2" vertex="1">
+                    <mxGeometry y="60" width="250" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="MediaTrackConstraints" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="-140" y="610" width="230" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="+ advanced?: MediaTrackConstraintSet[];" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;sketch=1;" parent="7" vertex="1">
+                    <mxGeometry y="26" width="230" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;sketch=1;entryX=0.501;entryY=1.045;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="7" target="5" edge="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="550" y="540" as="sourcePoint"/>
+                        <mxPoint x="-20" y="576" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="19" value="MediaDevices" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="-250" y="300" width="450" height="86" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="+ getUserMedia(constraints?: MediaStreamConstraints): Promise&lt;MediaStream&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;sketch=1;" parent="19" vertex="1">
+                    <mxGeometry y="26" width="450" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;sketch=1;" parent="19" vertex="1">
+                    <mxGeometry y="52" width="450" height="8" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="+ enumerateDevices(): Promise&lt;MediaDeviceInfo[]&gt;;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;sketch=1;" parent="19" vertex="1">
+                    <mxGeometry y="60" width="450" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;sketch=1;" parent="1" source="2" target="22" edge="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="270" y="390" as="sourcePoint"/>
+                        <mxPoint x="200" y="339" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="70" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="66" target="69" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="66" value="H5录音功能" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="-770" y="230" width="110" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="72" value="True" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="69" target="71" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="69" value="通过浏览器的安全机制校验" style="rhombus;whiteSpace=wrap;html=1;rounded=1;strokeWidth=2;arcSize=14;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="-770" y="360" width="108" height="108" as="geometry"/>
+                </mxCell>
+                <mxCell id="75" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="71" target="74" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="71" value="navigator.mediaDevices&lt;span&gt;.getUserMedia&lt;/span&gt;&lt;span style=&quot;text-align: left&quot;&gt;(constraints?: MediaStreamConstraints): Promise&amp;lt;MediaStream&amp;gt;&lt;/span&gt;" style="whiteSpace=wrap;html=1;rounded=1;strokeWidth=2;arcSize=14;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="-871.25" y="560" width="312.5" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="73" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;sketch=1;" parent="1" source="24" edge="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="-10" y="640" as="sourcePoint"/>
+                        <mxPoint x="-25" y="660" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="85" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="74" target="77" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-900" y="730"/>
+                            <mxPoint x="-900" y="590"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="74" value="得到媒体流(mediaStream)" style="whiteSpace=wrap;html=1;rounded=1;strokeWidth=2;arcSize=14;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="-775" y="700" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="78" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="76" target="77" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-1220" y="490"/>
+                            <mxPoint x="-1078" y="490"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="82" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="76" target="81" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-1220" y="490"/>
+                            <mxPoint x="-1378" y="490"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="76" value="创建音频上下文(AudioContext)" style="whiteSpace=wrap;html=1;rounded=1;strokeWidth=2;arcSize=14;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="-1280" y="386" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="80" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="77" target="79" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="77" value="AudioContext.createMediaStreamSource(mediaStream)" style="whiteSpace=wrap;html=1;rounded=1;strokeWidth=2;arcSize=14;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="-1230" y="560" width="304" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="86" value="connect" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="79" target="83" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="79" value="mediaStreamAudioSourceNode" style="whiteSpace=wrap;html=1;rounded=1;strokeWidth=2;arcSize=14;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="-1172" y="700" width="188" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="84" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="81" target="83" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="81" value="AudioContext.createScriptProcessor()" style="whiteSpace=wrap;html=1;rounded=1;strokeWidth=2;arcSize=14;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="-1490" y="560" width="224" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="83" value="scriptProcessorNode" style="whiteSpace=wrap;html=1;rounded=1;strokeWidth=2;arcSize=14;sketch=1;" parent="1" vertex="1">
+                    <mxGeometry x="-1438" y="700" width="120" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
