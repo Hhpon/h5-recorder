@@ -226,11 +226,163 @@ function floatTo16BitPCM(data: Float32Array): Int16Array {
 ```
 *转换采样位数、降低采样频率的方法都是在`onaudioprocess`方法中调用的，每秒调用的次数过多，在WKwebview中表现卡顿，采样的音频质量很差。解决方式：可以使用web worker处理音频；把audioBuffer发送给web worker，处理完以后再传输回网页中。*
 
+```ts
+scriptProcessorNode.onaudioprocess = function(event: AudioProcessingEvent){
+  const audioBuffer = event.inputBuffer
+  this.currentRecorderSampleRate = audioBuffer.sampleRate
+  if (Object.prototype.hasOwnProperty.call(this.option, 'frameSize')) {
+    const newSampleRateBuffer = interpolateArray(audioBuffer.getChannelData(0), this.defaultOption.sampleRate, audioBuffer.sampleRate)
+    const int16PCMBuffer = floatTo16BitPCM(newSampleRateBuffer)
+    // frameRecordedCallback 为规范中规定的回调函数
+    this.frameRecordedCallback && this.frameRecordedCallback({ frameBuffer: event.data.buffer, isLastFrame: false })
+  }
+}
+```
+
 至此我们就可以获取到采样频率为16000Hz、采样位数为16bits、单声道的PCM数据了。
 
 ##### 我们如何播放录制的音频呢？
 
-我们已经获取到了所有的PCM数据，但是`<audio>`标签不支持播放PCM格式的音频，所以我们只需要把刚刚获取到的`Float32Array`合并、转码、生成链接就可以实现最简单的播放功能了。
+我们已经获取到了所有的PCM数据，但是`<audio>`标签不支持播放PCM格式的音频，所以我们需要把刚刚获取到的`Float32Array`合并、转码、生成链接就可以实现最简单的播放功能了。
+
+###### 合并Float32Array
+
+回到`onaudioprocess`方法中，我们把这里获取到的数据保存到一个数组`monoDataList: Float32Array[]`中，停止录制的时候再统一处理。
+
+```ts
+scriptProcessorNode.onaudioprocess = function(event: AudioProcessingEvent){
+  const audioBuffer = event.inputBuffer
+  this.currentRecorderSampleRate = audioBuffer.sampleRate
+
+  this.setChannelData(audioBuffer)
+  this.setTotalDuration(audioBuffer.duration) 
+
+  if (Object.prototype.hasOwnProperty.call(this.option, 'frameSize')) {
+    const newSampleRateBuffer = interpolateArray(audioBuffer.getChannelData(0), this.defaultOption.sampleRate, audioBuffer.sampleRate)
+    const int16PCMBuffer = floatTo16BitPCM(newSampleRateBuffer)
+    // frameRecordedCallback 为规范中规定的回调函数
+    this.frameRecordedCallback && this.frameRecordedCallback({ frameBuffer: event.data.buffer, isLastFrame: false })
+  }
+}
+
+// ...
+
+setChannelData(audioBuffer: AudioBuffer) {
+  // 双声道 存储数据的方式
+  if (this.defaultOption.numberOfChannels === 2) {
+    let leftChannelData = audioBuffer.getChannelData(0),
+      rightChannelData = audioBuffer.getChannelData(1);
+
+    this.leftDataList.push(leftChannelData.slice(0));
+    this.rightDataList.push(rightChannelData.slice(0));
+  } else {
+    // 单声道存储数据的方式
+    this.monoDataList.push(audioBuffer.getChannelData(0).slice(0))
+  }
+}
+
+// 设置总的录音时长
+setTotalDuration(duration: number) {
+  this.totalDuration += duration
+}
+```
+
+停止录制的时候我们需要整理一下数据，在停止录制的回调函数`onStop`中返回音频的播放地址。
+
+```ts
+stop(): void {
+  this.mediaStream?.getAudioTracks()[0].stop();
+  this.mediaStreamAudioSourceNode?.disconnect();
+  this.scriptProcessorNode?.disconnect();
+  const allData: Float32Array = this.getChannelData()
+  const bitDepth = this.format === 3 ? 32 : 16
+  const wavBuffer: ArrayBuffer = encodeWAV(allData, this.format, this.currentRecorderSampleRate, thisdefaultOption.numberOfChannels!, bitDepth)
+  this.stopCallback && this.stopCallback({ duration: this.totalDuration, fileSize: wavBuffer.byteLength,tempFilePath: this.arrayBufferToBase64(wavBuffer) })
+}
+
+getChannelData() {
+  if (this.defaultOption.numberOfChannels === 2) {
+    return this.interleaveLeftAndRight(this.mergeArray(this.leftDataList), this.mergeArray(this.rightDataList))
+  } else {
+    return this.mergeArray(this.monoDataList)
+  }
+}
+
+arrayBufferToBase64(arrayBuffer: ArrayBuffer) {
+  let binary = '';
+  const bytes = new Uint8Array(arrayBuffer);
+  let len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return `data:audio/${this.defaultOption.format};base64,${window.btoa(binary)}`;
+}
+```
+
+```ts
+// 方法来源于网络
+// audioBufferToWav.ts
+export function encodeWAV(samples: Float32Array, format: number, sampleRate: number, numChannels: number, bitDepth: number) {
+  var bytesPerSample = bitDepth / 8
+  var blockAlign = numChannels * bytesPerSample
+
+  var buffer = new ArrayBuffer(44 + samples.length * bytesPerSample)
+  var view = new DataView(buffer)
+
+  /* RIFF identifier */
+  writeString(view, 0, 'RIFF')
+  /* RIFF chunk length */
+  view.setUint32(4, 36 + samples.length * bytesPerSample, true)
+  /* RIFF type */
+  writeString(view, 8, 'WAVE')
+  /* format chunk identifier */
+  writeString(view, 12, 'fmt ')
+  /* format chunk length */
+  view.setUint32(16, 16, true)
+  /* sample format (raw) */
+  view.setUint16(20, format, true)
+  /* channel count */
+  view.setUint16(22, numChannels, true)
+  /* sample rate */
+  view.setUint32(24, sampleRate, true)
+  /* byte rate (sample rate * block align) */
+  view.setUint32(28, sampleRate * blockAlign, true)
+  /* block align (channel count * bytes per sample) */
+  view.setUint16(32, blockAlign, true)
+  /* bits per sample */
+  view.setUint16(34, bitDepth, true)
+  /* data chunk identifier */
+  writeString(view, 36, 'data')
+  /* data chunk length */
+  view.setUint32(40, samples.length * bytesPerSample, true)
+  if (format === 1) { // Raw PCM
+    floatTo16BitPCM(view, 44, samples)
+  } else {
+    writeFloat32(view, 44, samples)
+  }
+
+  return buffer
+}
+
+function writeFloat32(output, offset, input) {
+  for (var i = 0; i < input.length; i++, offset += 4) {
+    output.setFloat32(offset, input[i], true)
+  }
+}
+
+function floatTo16BitPCM(output, offset, input) {
+  for (var i = 0; i < input.length; i++, offset += 2) {
+    var s = Math.max(-1, Math.min(1, input[i]))
+    output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true)
+  }
+}
+
+function writeString(view, offset, string) {
+  for (var i = 0; i < string.length; i++) {
+    view.setUint8(offset + i, string.charCodeAt(i))
+  }
+}
+```
 
 ### 相关链接
 [如何实现前端录音功能 - 知乎](https://zhuanlan.zhihu.com/p/43581133)
