@@ -258,7 +258,7 @@ scriptProcessorNode.onaudioprocess = function(event: AudioProcessingEvent){
   this.setTotalDuration(audioBuffer.duration) 
 
   if (Object.prototype.hasOwnProperty.call(this.option, 'frameSize')) {
-    const newSampleRateBuffer = interpolateArray(audioBuffer.getChannelData(0), this.defaultOption.sampleRate, audioBuffer.sampleRate)
+    const newSampleRateBuffer = interpolateArray(this.defaultOption.numberOfChannels === 2 ? this.interleaveLeftAndRight(audioBuffer.getChannelData(0), audioBuffer.getChannelData(1)) : audioBuffer.getChannelData(0), this.defaultOption.sampleRate, audioBuffer.sampleRate)
     const int16PCMBuffer = floatTo16BitPCM(newSampleRateBuffer)
     // frameRecordedCallback 为规范中规定的回调函数
     this.frameRecordedCallback && this.frameRecordedCallback({ frameBuffer: event.data.buffer, isLastFrame: false })
@@ -296,7 +296,7 @@ stop(): void {
   this.scriptProcessorNode?.disconnect();
   const allData: Float32Array = this.getChannelData()
   const bitDepth = this.format === 3 ? 32 : 16
-  const wavBuffer: ArrayBuffer = encodeWAV(allData, this.format, this.currentRecorderSampleRate, thisdefaultOption.numberOfChannels!, bitDepth)
+  const wavBuffer: ArrayBuffer = encodeWAV(allData, this.format, this.currentRecorderSampleRate, this.defaultOption.numberOfChannels!, bitDepth)
   this.stopCallback && this.stopCallback({ duration: this.totalDuration, fileSize: wavBuffer.byteLength,tempFilePath: this.arrayBufferToBase64(wavBuffer) })
 }
 
@@ -383,6 +383,18 @@ function writeString(view, offset, string) {
   }
 }
 ```
+
+#### 总结
+
+基本上按照`getRecorderManager()`的规范实现了主要的方法，如`start`、`onStart`、`stop`、`onStop`、`onFrameRecorded`。
+
+**如今存在的问题**
+
+- start方法的参数没有完整的按照规范实现
+- 生成的音频格式只有`WAV`，规范中还有`MP3`格式的代码
+- 最后生成的音频方法`encodeWAV`不了解其中原理，该方法中也进行数据采样位数的转换，了解一下原理之后应该可以避免该问题
+- 最后导出音频数据的方式是把二进制转换成base64，数据量增多，实际上还可以通过生成BlobUrl的方式导出音频数据，但是在webview兼容性不是很好。
+- 事实上scriptProcessorNode已经不建议使用了，建议使用的Api在iOS14.5的Safari浏览器中开始支持
 
 ### 相关链接
 [如何实现前端录音功能 - 知乎](https://zhuanlan.zhihu.com/p/43581133)
